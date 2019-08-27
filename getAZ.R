@@ -5,6 +5,9 @@ myDirPrefix <- "/pfs"
 
 geneMap <- read.csv(file.path(myDirPrefix, "downAnnotations/annot_ensembl_all_genes.csv"))
 
+curationCell <- readRDS(file.path(myDirPrefix,"AZdata/curationCell.rds"))
+curationDrug <- readRDS(file.path(myDirPrefix,"AZdata/curationDrug.rds"))
+
 
 profiles <- get(load("/pfs/AZrecomp/profiles.rds"))
 
@@ -12,7 +15,7 @@ profiles <- get(load("/pfs/AZrecomp/profiles.rds"))
 # profiles <- cbind("auc_recomputed"=recomputed$AUC/100, "ic50_recomputed"=recomputed$IC50, )
 # rownames(profiles) <- rownames(Az_raw_sensitivity)
 library(Biobase)
-load("/pfs/gdscU219normalized/GDSC1000.RData")
+load("/pfs/gdscU219normalized/GDSC_U219_ENSG.RData")
 
 
 message("Loading RNA Data")
@@ -41,11 +44,23 @@ pData(gdsc.u219.ensg)[,"batchid"] <- NA
 pData(gdsc.u219.ensg)[,"cellid"] <- rna.cellid
 
 
-pp <- pData(GDSC1000@molecularProfiles$rna)
-samples <- rownames(pp)[which(pp$cellid %in% curationCell$unique.cellid)]
+
+
+xx <- curationCell$unique.cellid
+rownames(curationCell) <- xx
+
+xx <- curationDrug$unique.drugid
+rownames(curationDrug) <- xx
+
+
+
 rna <- GDSC1000@molecularProfiles$rna[,samples]
 xx <- which(is.na(curationCell$unique.tissueid))
-curationCell$unique.tissueid[xx] <- curationCell$disease_type[xx]
+
+## WHY was the following done?
+
+# curationCell$unique.tissueid[xx] <- curationCell$disease_type[xx]
+
 curationCell$tissueid <- curationCell$unique.tissueid
 curationTissue <- curationCell[,c("tissueid", "unique.tissueid")]
 
