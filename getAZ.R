@@ -66,7 +66,6 @@ rownames(curationDrug) <- xx
 
 
 
-rna <- GDSC1000@molecularProfiles$rna[,samples]
 xx <- which(is.na(curationCell$unique.tissueid))
 
 ## WHY was the following done?
