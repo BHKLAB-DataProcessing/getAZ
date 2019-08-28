@@ -9,7 +9,7 @@ curationCell <- readRDS(file.path(myDirPrefix,"AZdata/curationCell.rds"))
 curationDrug <- readRDS(file.path(myDirPrefix,"AZdata/curationDrug.rds"))
 
 
-profiles <- get(load("/pfs/AZprofiles/profiles.rds"))
+profiles <- get(load("/pfs/azProfiles//profiles.RData"))
 
 # profiles <- cbind("auc_recomputed"=recomputed$AUC/100, "ic50_recomputed"=recomputed$IC50, )
 # rownames(profiles) <- rownames(Az_raw_sensitivity)
