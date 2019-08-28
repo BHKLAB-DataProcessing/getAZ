@@ -1,6 +1,19 @@
 
 options(stringsAsFactors=FALSE)
 
+
+matchToIDTable <- function(ids,tbl, column, returnColumn="unique.cellid") {
+  sapply(ids, function(x) {
+                          myx <- grep(paste0("((///)|^)",Hmisc::escapeRegex(x),"((///)|$)"), tbl[,column])
+                          if(length(myx) > 1){
+                            stop("Something went wrong in curating ids, we have multiple matches")
+                          }
+        if(length(myx) == 0){return(NA_character_)}
+                          return(tbl[myx, returnColumn])
+                        })
+}
+
+
 myDirPrefix <- "/pfs"
 
 geneMap <- read.csv(file.path(myDirPrefix, "downAnnotations/annot_ensembl_all_genes.csv"))
