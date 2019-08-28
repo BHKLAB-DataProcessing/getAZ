@@ -24,6 +24,10 @@ curationDrug <- readRDS(file.path(myDirPrefix,"AZdata/curationDrug.rds"))
 
 profiles <- get(load("/pfs/azProfiles//profiles.RData"))
 
+sensitivity_info <- readRDS("/pfs/normalizedAZData/AZ_sens_info.rds")
+Az_raw_sensitivity <- readRDS("/pfs/normalizedAZData/AZ_sens_raw.rds")
+
+
 # profiles <- cbind("auc_recomputed"=recomputed$AUC/100, "ic50_recomputed"=recomputed$IC50, )
 # rownames(profiles) <- rownames(Az_raw_sensitivity)
 library(Biobase)
