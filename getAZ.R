@@ -1,4 +1,4 @@
-
+library(PharmacoGx)
 options(stringsAsFactors=FALSE)
 
 
