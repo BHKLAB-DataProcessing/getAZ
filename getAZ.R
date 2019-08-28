@@ -60,8 +60,11 @@ rownames(fData(gdsc.u219.ensg)) <- rownames(exprs(gdsc.u219.ensg))
 pData(gdsc.u219.ensg)[,"batchid"] <- NA
 pData(gdsc.u219.ensg)[,"cellid"] <- rna.cellid
 
+cells <- curationCell[,"unique.cellid"]
 
+myx <- pData(gdsc.u219.ensg)[,"cellid"] %in% cells
 
+gdsc.u219.ensg <- gdsc.u219.ensg[,myx]
 
 xx <- curationCell$unique.cellid
 rownames(curationCell) <- xx
