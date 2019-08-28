@@ -66,11 +66,32 @@ myx <- pData(gdsc.u219.ensg)[,"cellid"] %in% cells
 
 gdsc.u219.ensg <- gdsc.u219.ensg[,myx]
 
+
+for(col in colnames(curationCell)){
+  curationCell[,col] <- as.character(curationCell[,col])
+}
+for(col in colnames(curationDrug)){
+  curationDrug[,col] <- as.character(curationDrug[,col])
+}
+
 xx <- curationCell$unique.cellid
 rownames(curationCell) <- xx
 
 xx <- curationDrug$unique.drugid
 rownames(curationDrug) <- xx
+xx <- setdiff(drugs$DRUG_ID, curationDrug$astrazeneca.numerical_drugid)
+for(x in xx){
+  ii <- which(drugs$DRUG_ID == x)
+  curationDrug <- rbind(curationDrug, c(drugs$DRUG_NAME[ii],
+                                        drugs$DRUG_NAME[ii],
+                                        drugs$PUTATIVE_TARGET[ii],
+                                        NA,
+                                        NA,
+                                        NA,
+                                        NA,
+                                        drugs$DRUG_ID[ii]))
+}
+rownames(curationDrug) <- curationDrug$unique.drugid
 
 
 
@@ -78,7 +99,7 @@ xx <- which(is.na(curationCell$unique.tissueid))
 
 ## WHY was the following done?
 
-# curationCell$unique.tissueid[xx] <- curationCell$disease_type[xx]
+curationCell$unique.tissueid[xx] <- curationCell$disease_type[xx]
 
 curationCell$tissueid <- curationCell$unique.tissueid
 curationTissue <- curationCell[,c("tissueid", "unique.tissueid")]
