@@ -14,7 +14,7 @@ matchToIDTable <- function(ids,tbl, column, returnColumn="unique.cellid") {
 }
 
 
-myDirPrefix <- "/pfs"
+myDirPrefix <- "pfs"
 
 geneMap <- read.csv(file.path(myDirPrefix, "downAnnotations/annot_ensembl_all_genes.csv"))
 
@@ -22,16 +22,17 @@ curationCell <- readRDS(file.path(myDirPrefix,"AZdata/curationCell.rds"))
 curationDrug <- readRDS(file.path(myDirPrefix,"AZdata/curationDrug.rds"))
 
 
-profiles <- get(load("/pfs/azProfiles//profiles.RData"))
+profiles <- get(load(file.path(myDirPrefix, "azProfiles/profiles.RData")))
 
-sensitivity_info <- readRDS("/pfs/normalizedAZData/AZ_sens_info.rds")
-Az_raw_sensitivity <- readRDS("/pfs/normalizedAZData/AZ_sens_raw.rds")
+sensitivity_info <- readRDS(file.path(myDirPrefix, "normalizedAZData/AZ_sens_info.rds"))
+Az_raw_sensitivity <- readRDS(file.path(myDirPrefix, "normalizedAZData/AZ_sens_raw.rds"))
 
+profiles <- profiles[rownames(sensitivity_info),]
 
 # profiles <- cbind("auc_recomputed"=recomputed$AUC/100, "ic50_recomputed"=recomputed$IC50, )
 # rownames(profiles) <- rownames(Az_raw_sensitivity)
 library(Biobase)
-load("/pfs/gdscU219normalized/GDSC_U219_ENSG.RData")
+load(file.path(myDirPrefix, "gdscU219normalized/GDSC_U219_ENSG.RData"))
 
 
 message("Loading RNA Data")
