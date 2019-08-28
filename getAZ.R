@@ -18,8 +18,8 @@ myDirPrefix <- "pfs"
 
 geneMap <- read.csv(file.path(myDirPrefix, "downAnnotations/annot_ensembl_all_genes.csv"))
 
-curationCell <- readRDS(file.path(myDirPrefix,"AZdata/curationCell.rds"))
-curationDrug <- readRDS(file.path(myDirPrefix,"AZdata/curationDrug.rds"))
+curationCell <- readRDS(file.path(myDirPrefix,"normalizedAZData/curationCell.rds"))
+curationDrug <- readRDS(file.path(myDirPrefix,"normalizedAZData/curationDrug.rds"))
 
 
 profiles <- get(load(file.path(myDirPrefix, "azProfiles/profiles.RData")))
@@ -65,33 +65,6 @@ cells <- curationCell[,"unique.cellid"]
 myx <- pData(gdsc.u219.ensg)[,"cellid"] %in% cells
 
 gdsc.u219.ensg <- gdsc.u219.ensg[,myx]
-
-
-for(col in colnames(curationCell)){
-  curationCell[,col] <- as.character(curationCell[,col])
-}
-for(col in colnames(curationDrug)){
-  curationDrug[,col] <- as.character(curationDrug[,col])
-}
-
-xx <- curationCell$unique.cellid
-rownames(curationCell) <- xx
-
-xx <- curationDrug$unique.drugid
-rownames(curationDrug) <- xx
-xx <- setdiff(drugs$DRUG_ID, curationDrug$astrazeneca.numerical_drugid)
-for(x in xx){
-  ii <- which(drugs$DRUG_ID == x)
-  curationDrug <- rbind(curationDrug, c(drugs$DRUG_NAME[ii],
-                                        drugs$DRUG_NAME[ii],
-                                        drugs$PUTATIVE_TARGET[ii],
-                                        NA,
-                                        NA,
-                                        NA,
-                                        NA,
-                                        drugs$DRUG_ID[ii]))
-}
-rownames(curationDrug) <- curationDrug$unique.drugid
 
 
 
