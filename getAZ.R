@@ -92,6 +92,6 @@ AZ <- PharmacoSet(name="AZ",
                   curationDrug=curationDrug,
                   curationTissue=curationTissue, datasetType="sensitivity")
 
-save(AZ, file="AZ.RData")
+save(AZ, file="/pfs/out/AZ.RData")
 
 
